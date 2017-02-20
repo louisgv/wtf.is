@@ -8,8 +8,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel --presets es2015,stage-0 -d lib/ src/",
-    "watch": "babel --watch --presets es2015,stage-0 -d lib/ src/"
+    "build": "babel -d lib/ src/",
+    "watch": "babel --watch -d lib/ src/"
   },
   "repository": {
     "type": "git",
