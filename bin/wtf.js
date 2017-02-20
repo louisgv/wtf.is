@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 
-console.log("HELLO WORLD!");
+require('../lib/cli');
