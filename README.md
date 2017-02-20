@@ -34,3 +34,7 @@ At the end, it will return a description, which if called via the public api, wi
 - ./src
 
 > NOTE: This is a guide to Read and Partially understand this repos. Just go through them in this order. If you asked why, then the reason is probably because you are not the main contributor to this repo! Dood
+
+## License
+
+MIT, dood!
