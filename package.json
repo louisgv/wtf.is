@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/louisgv/wtf-is/issues"
   },
-  "homepage": "https://github.com/louisgv/wtf-is#readme"
+  "homepage": "https://github.com/louisgv/wtf-is#readme",
+  "dependencies": {
+    "commander": "^2.9.0"
+  }
 }
