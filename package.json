@@ -1,5 +1,5 @@
 {
-  "name": "wtf-is",
+  "name": "wtf.is",
   "version": "1.0.0",
   "description": "A CLI app that tell you what the fuck that file was supposed to do. API available too! ",
   "main": "index.js",
