@@ -3,8 +3,13 @@
   "version": "1.0.0",
   "description": "A CLI app that tell you what the fuck that file was supposed to do. API available too! ",
   "main": "index.js",
+  "bin": {
+    "wtf": "./bin/wtf.js"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel --presets es2015,stage-0 -d lib/ src/",
+    "watch": "babel-watch --presets es2015,stage-0 -d lib/ src/"
   },
   "repository": {
     "type": "git",
@@ -22,5 +27,10 @@
   "homepage": "https://github.com/louisgv/wtf-is#readme",
   "dependencies": {
     "commander": "^2.9.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.23.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-watch": "^2.0.6"
   }
 }
