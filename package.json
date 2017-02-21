@@ -7,6 +7,7 @@
     "wtf": "./bin/wtf.js"
   },
   "scripts": {
+    "commit": "git-cz",
     "test": "echo \"Error: no test specified\"",
     "build": "babel -d lib/ src/",
     "watch": "babel --watch -d lib/ src/",
@@ -34,6 +35,13 @@
     "babel-cli": "^6.23.0",
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-stage-0": "^6.22.0",
+    "commitizen": "^2.9.6",
+    "cz-conventional-changelog": "^1.2.0",
     "semantic-release": "^6.3.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

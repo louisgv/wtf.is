@@ -23,9 +23,19 @@ At the end, it will return a description, which if called via the public api, wi
 
 ## For developer
 
-- All code should be in `/src`
-- Do `npm link` to install the cli
-- Run build -> profit
+1. Coding:
+
+  - All code should be in `/src`
+  - Do `npm link` to install the cli
+  - Run build -> profit
+
+2. Committing:
+
+  - Use `npm run commit` instead of `git commit` (We're using comitizen)
+
+3. Publishing:
+
+  - Do a PR.
 
 ## Source Order:
 
