@@ -7,7 +7,7 @@
     "wtf": "./bin/wtf.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Error: no test specified\"",
     "build": "babel -d lib/ src/",
     "watch": "babel --watch -d lib/ src/",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
