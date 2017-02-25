@@ -2,7 +2,7 @@ import commander from 'commander';
 import chalk from 'chalk';
 import WTF from '../api';
 const log = console.log;
-
+// TODO: Instead of the naive console.log, use a scorllable/interactive clid display
 function processFile(filename) {
 
 	const resp = WTF.is(filename);
