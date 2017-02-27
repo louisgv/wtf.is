@@ -1,4 +1,4 @@
-# What the fuck is
+# What the fuck is this?
 
 It basically tell you what the fuck is that file, what it is suppose to do, and how to open/work with it.
 
