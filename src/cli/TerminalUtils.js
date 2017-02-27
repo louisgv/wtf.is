@@ -1,6 +1,6 @@
 import Blessed from 'blessed';
 
-export default class TerminalUils {
+export default class TerminalUtils {
 
 	static generateBox(content, screen) {
 		const box = Blessed.box({
@@ -19,7 +19,7 @@ export default class TerminalUils {
 				// if (box.top === 0) {
 				// 	return;
 				// }
-				screen.insertTop("HOLA wqf",0);
+				box.atop++;
 				screen.render();
 			});
 
@@ -30,8 +30,6 @@ export default class TerminalUils {
 				// }
 				// stack.push(box.getBaseLine(0));
 				// box.shiftLine(1);
-
-				screen.deleteTop(0,0);
 				screen.render();
 			});
 
