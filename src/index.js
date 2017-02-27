@@ -1,1 +1,3 @@
-module.exports = require('./api');
+import WTF from './api';
+
+export default WTF;

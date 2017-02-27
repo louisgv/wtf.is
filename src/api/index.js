@@ -1,13 +1,31 @@
+const API = {
+	PROTOCOL: "http",
+	HOST: "localhost",
+	PORT: 3000,
+	ROUTE: "/"
+};
+
+import Fetch from 'node-fetch';
+
 export default class WTF {
-	static is(name) {
 
-    // TODO: Get CWD
+	static async getInfo(filename) {
+		const url = `${API.PROTOCOL}://${API.HOST}:${API.PORT}${API.ROUTE}/${filename}`
+		const res = await Fetch(url);
+		const json = await res.json();
+		return json;
+	}
 
-    // TODO: If CWD is `bin`, invoke `man $filename`
+	static async is(filename) {
+		const info = await WTF.getInfo(filename);
 
-    // TODO: If `man` success, print out the data.
+		// TODO: Get dirname
 
-    // TODO: If `man` returns nothing, continue
+		// TODO: If CWD is `bin`, invoke `man $filename`
+
+		// TODO: If `man` success, print out the data.
+
+		// TODO: If `man` returns nothing, continue
 
 		// TODO: Check if filename exist in our database.
 
@@ -16,27 +34,21 @@ export default class WTF {
 		// TODO: Get a list of sibling directory
 
 		// TODO: If 50% of sibling directory doesn't
-    // match data.siblingDirs, role up a FLAG for unreliable data.
+		// match data.siblingDirs, role up a FLAG for unreliable data.
 
+		// TODO: Get a list of sibling files
 
-    // TODO: Get a list of sibling files
+		// TODO: If 50% of sibling files doesn't
+		// match data.siblingDirs, role up a FLAG for unreliable data.
 
-    // TODO: If 50% of sibling files doesn't
-    // match data.siblingDirs, role up a FLAG for unreliable data.
-
-
-    // TODO: Get filesize
+		// TODO: Get filesize
 
 		// TODO: If file size is bigger than data.maxSize,
-    // roll up a FLAG for unconventional file
+		// roll up a FLAG for unconventional file
 
-    // TODO: If the filesize is smaller than data.minSize,
-    // roll up a FLAG for unconventional file
+		// TODO: If the filesize is smaller than data.minSize,
+		// roll up a FLAG for unconventional file
 
-		return {
-			usage: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-			description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-			siblings: ['node_modules']
-		}
+		return info;
 	}
 };

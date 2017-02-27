@@ -2,7 +2,8 @@ import Commander from 'commander';
 import Chalk from 'chalk';
 import WTF from '../';
 import Blessed from 'blessed';
-import TerminalUils from './TerminalUils';
+
+import TerminalUtils from './TerminalUtils';
 
 async function getAndPrintData(filename) {
 	try {
@@ -19,28 +20,25 @@ async function getAndPrintData(filename) {
 
 	   ${resp.description}
 
-		Applications:
+	  Applications:
+` +
+			resp.applications.reduce((p, c) => {
+				return p +
+					`
+	   ${c.name}
+	   ${c.description}
+      `
+			}, "");
 
-	   ${resp.applications.reduce((acc, current) => {
-			 return `
-    ${acc}
-
-		${current.name}
-		${current.description}
-			 `;
-		 }, "")}
-	    `;
-
-		const screen = TerminalUils.generateScreen();
+		const screen = TerminalUtils.generateScreen();
 
 		screen.title = `WTF is ${filename};`
 
-		const box = Blessed.box({
-			content,
-			scrollable: true
-		})
+		const box = TerminalUtils.generateBox(content, screen);
 
-		const footnote = TerminalUils.generateFootNote(box);
+		box.focus();
+
+		const footnote = TerminalUtils.generateFootNote(box);
 
 		screen.append(box);
 
