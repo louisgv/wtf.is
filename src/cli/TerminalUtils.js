@@ -20,6 +20,7 @@ export default class TerminalUtils {
 				// 	return;
 				// }
 				box.atop++;
+				screen.insertTop(stack.pop(),0);
 				screen.render();
 			});
 
@@ -28,7 +29,7 @@ export default class TerminalUtils {
 				// if (box.getLines().length === 3) {
 				// 	return;
 				// }
-				// stack.push(box.getBaseLine(0));
+				stack.push(screen.deleteTop(0,0));
 				// box.shiftLine(1);
 				screen.render();
 			});

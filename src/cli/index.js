@@ -1,50 +1,90 @@
 import Commander from 'commander';
 import Chalk from 'chalk';
 import WTF from '../';
-import Blessed from 'blessed';
 
-import TerminalUtils from './TerminalUtils';
+import TerminalKit from 'terminal-kit';
+
 
 async function getAndPrintData(filename) {
 	try {
 		const resp = await WTF.is(filename);
 
 		const content = `
-	  ${Chalk.green(filename)}
+  ${Chalk.green(filename)}
 
-	  Usage:
+  Usage:
 
-	   ${resp.usage}
+    ${resp.usage}
 
-	  Description:
+  Description:
 
-	   ${resp.description}
+    ${resp.description}
 
-	  Applications:
-` +
-			resp.applications.reduce((p, c) => {
-				return p +
-					`
-	   ${c.name}
-	   ${c.description}
-      `
-			}, "");
+	Applications:
+` + resp.applications.reduce((p, c) => {
+			return p +
+				`
+    ${c.name}
+    ${c.description}
+`
+		}, "");
 
-		const screen = TerminalUtils.generateScreen();
+		const term = TerminalKit.realTerminal;
 
-		screen.title = `WTF is ${filename};`
+		term.fullscreen(true);
 
-		const box = TerminalUtils.generateBox(content, screen);
+		term.grabInput({
+			mouse: 'button'
+		});
 
-		box.focus();
+		const sbuf = TerminalKit.ScreenBuffer.create({
+			dst: term
+		});
 
-		const footnote = TerminalUtils.generateFootNote(box);
+		const tbuf = TerminalKit.TextBuffer.create({
+			dst: sbuf
+		});
 
-		screen.append(box);
+		term.on('key', function(name, matches, data) {
+			// console.log("'key' event:", name);
+			if (name === 'CTRL_C') {
+				term.grabInput(false);
+				setTimeout(function() {
+					process.exit()
+				}, 100);
+			}
+			if (name === 'UP') {
+				tbuf.move(0, -1);
+			}
+			if (name === 'DOWN') {
+				tbuf.move(0, 1);
+			}
+		});
 
-		screen.append(footnote);
+		tbuf.setText(content);
 
-		screen.render();
+		tbuf.draw();
+
+		sbuf.draw();
+
+
+		// term(content);
+
+		// const screen = TerminalUtils.generateScreen();
+		//
+		// screen.title = `WTF is ${filename};`
+		//
+		// const box = TerminalUtils.generateBox(content, screen);
+		//
+		// box.focus();
+		//
+		// const footnote = TerminalUtils.generateFootNote(box);
+		//
+		// screen.append(box);
+		//
+		// screen.append(footnote);
+		//
+		// screen.render();
 	} catch (e) {
 		console.error(e);
 		return process.exit(1);

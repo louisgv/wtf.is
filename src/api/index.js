@@ -5,6 +5,14 @@ const API = {
 	ROUTE: "/"
 };
 
+// https://raw.githubusercontent.com/louisgv/wtf-is/master/db/package.json
+// const API = {
+// 		PROTOCOL: "https",
+// 		HOST: "raw.githubusercontent.com",
+// 		PORT: 443,
+// 		ROUTE: "/louisgv/wtf-is/master/db/"
+// }
+
 import Fetch from 'node-fetch';
 
 export default class WTF {
