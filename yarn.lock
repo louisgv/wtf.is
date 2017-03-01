@@ -129,13 +129,6 @@ async-each@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/async-each/-/async-each-1.0.1.tgz#19d386a1d9edc6e7c1c85d388aedbcc56d33602d"
 
-async-kit@^2.2.3:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/async-kit/-/async-kit-2.2.3.tgz#264751a279ddc5f59b419638b805ae2c49858fb7"
-  dependencies:
-    nextgen-events "^0.9.0"
-    tree-kit "^0.5.26"
-
 async@^2.0.1:
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/async/-/async-2.1.5.tgz#e587c68580994ac67fc56ff86d3ac56bdbe810bc"
@@ -1961,10 +1954,6 @@ netrc@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/netrc/-/netrc-0.1.4.tgz#6be94fcaca8d77ade0a9670dc460914c94472444"
 
-nextgen-events@^0.9.0, nextgen-events@^0.9.8:
-  version "0.9.8"
-  resolved "https://registry.yarnpkg.com/nextgen-events/-/nextgen-events-0.9.8.tgz#ed1712c2b37dad55407b3e941672d1568c3a4630"
-
 node-fetch@^1.6.3:
   version "1.6.3"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-1.6.3.tgz#dc234edd6489982d58e8f0db4f695029abcd8c04"
@@ -2647,12 +2636,6 @@ stream-consume@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/stream-consume/-/stream-consume-0.1.0.tgz#a41ead1a6d6081ceb79f65b061901b6d8f3d1d0f"
 
-string-kit@^0.5.12:
-  version "0.5.15"
-  resolved "https://registry.yarnpkg.com/string-kit/-/string-kit-0.5.15.tgz#02cb7718c91ed750c242f969bcbdc0a3a8218732"
-  dependencies:
-    tree-kit "^0.5.24"
-
 string-width@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-1.0.2.tgz#118bdf5b8cdc51a2a7e70d211e07e2b0b9b107d3"
@@ -2716,15 +2699,6 @@ tar@~2.2.1:
     fstream "^1.0.2"
     inherits "2"
 
-terminal-kit@^0.26.1:
-  version "0.26.1"
-  resolved "https://registry.yarnpkg.com/terminal-kit/-/terminal-kit-0.26.1.tgz#142d960c98b3afc8e800fe5ebdf9cbbea6abdfa1"
-  dependencies:
-    async-kit "^2.2.3"
-    nextgen-events "^0.9.8"
-    string-kit "^0.5.12"
-    tree-kit "^0.5.26"
-
 through@2, through@^2.3.6, through@~2.3, through@~2.3.1:
   version "2.3.8"
   resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
@@ -2763,10 +2737,6 @@ travis-deploy-once@1.0.0-node-0.10-support:
     request "^2.78.0"
     request-promise "^4.1.1"
     travis-ci "^2.1.1"
-
-tree-kit@^0.5.24, tree-kit@^0.5.26:
-  version "0.5.26"
-  resolved "https://registry.yarnpkg.com/tree-kit/-/tree-kit-0.5.26.tgz#8571c86fa24d1db754e5b0cb3a7e09f41e74a8df"
 
 trim-newlines@^1.0.0:
   version "1.0.0"
