@@ -12,7 +12,7 @@ export default class Terminal {
 		} = this;
 
 		const screen = generateScreen();
-		screen.title = `WTF is ${filename};`
+		screen.title = `WTF is ${filename}`;
 
 		const box = generateBox(content);
 		box.focus();
