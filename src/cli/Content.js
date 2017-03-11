@@ -7,47 +7,76 @@ export default class Content {
 		return new Promise((resolve, reject) => {
 			ChildProcess.exec(`man ${filename}`, (err, stdout, stderr) => {
 				if (err || stderr) {
-					return reject({
-						err,
-						stderr
-					});
+					return reject({err, stderr});
 				}
 				resolve(stdout);
 			});
 		});
 	}
 
-	static generateApplicationList({
-		applications
-	}) {
-		if (!applications) {
+	static generateApplicationList(filename, {info}) {
+		if (!info.applications) {
 			return "";
 		}
-		return "\n\nApplications:\n" + applications.reduce((p, c) => {
-			return p + `
-  ${Chalk.green(c.name)}
-    ${c.description}
-`
+		return `${Chalk.bold("APPLICATIONS")}` + info.applications.reduce((p, c) => {
+			return p + `\n\t\t${Chalk.green(c.name)}
+\t\t${c.description}\n`
 		}, "");
 
 	}
 
-	static generateInfoContent({
-		filename,
-		info,
-		cwd
-	}) {
+	static generateStatContent(filename, {fileStats, siblingDirectoryReliability, siblingFileReliability}) {
+		return `${Chalk.bold("STATISTIC")}
+\t\tStandard sibling directory matches: ${Chalk.bold(siblingDirectoryReliability)}%
+\t\t${siblingDirectoryReliability > 50
+			? Chalk.green("Sibling directory structure is", Chalk.bold("RELIABLE"))
+			: Chalk.red("Sibling directory structure is", Chalk.bold("UNRELIABLE"), "or", Chalk.bold("NONSTANDARD"))}
+
+\t\tStandard sibling file matches: ${Chalk.bold(siblingFileReliability)}%
+\t\t${siblingFileReliability > 50
+				? Chalk.green("Sibling files structure is", Chalk.bold("RELIABLE"))
+				: Chalk.red("Sibling file structure is", Chalk.bold("UNRELIABLE"), "or", Chalk.bold("NONSTANDARD"))}`
+	}
+
+	static generateNameContent(filename, {cwd}) {
+		return `${Chalk.bold("NAME")}
+\t\t${Chalk
+			.green
+			.bold(filename)}
+\t\t${Chalk
+			.yellow(cwd)}`
+	}
+
+	static generateDescContent(filename, {info}) {
+		return `${Chalk.bold("DESCRIPTION")}
+\t\t${info.description}`
+	}
+
+	static generateUsgContent(filename, {info}) {
+		return `${Chalk.bold("USAGE")}
+\t\t${info.usage}`
+	}
+
+	static generateInfoContent(filename, data) {
+
+		// TODO: If file size is bigger than info.maxSize, roll up a FLAG for unconventional file
+
+		// TODO: If the filesize is smaller than info.minSize, roll up a FLAG for unconventional
+		// file
+
 		return `
-  ${Chalk.green(filename)}
-  ${cwd}
 
-Usage:
+${Content.generateNameContent(filename, data)}
 
-	${info.usage}
+${Content.generateStatContent(filename, data)}
 
-Description:
+${Content.generateDescContent(filename, data)}
 
-	${info.description}
-` + Content.generateApplicationList(info);
+${Content.generateUsgContent(filename, data)}
+
+${Content.generateApplicationList(filename, data)}
+
+
+`
 	}
 }

@@ -1,36 +1,55 @@
-const API = {
-	PROTOCOL: "http",
-	HOST: "localhost",
-	PORT: 5000,
-	ROUTE: "/"
-};
+// https://raw.githubusercontent.com/louisgv/wtf-is-db/master/name/package.json
+const DEFAULT_API = {
+	protocol: "https",
+	host: "raw.githubusercontent.com",
+	port: 443,
+	route: "/louisgv/wtf-is-db/master/"
+}
 
-// https://raw.githubusercontent.com/louisgv/wtf-is/master/db/package.json
-// const API = {
-// 		PROTOCOL: "https",
-// 		HOST: "raw.githubusercontent.com",
-// 		PORT: 443,
-// 		ROUTE: "/louisgv/wtf-is/master/db/"
-// }
-
-import Fs from 'fs';
+import FileSystem from './FileSystem';
 import Fetch from 'node-fetch';
 import Path from 'path';
 
 export default class WTF {
 
-	static async getInfo(filename) {
+	constructor(api) {
+
+		const {protocol, host, port, route, url} = (api && !api.url)
+			? api
+			: DEFAULT_API;
+
+		this.url = url || `${protocol}://${host}:${port}${route}`
+	}
+
+	async getInfoByExtension(ext) {
 		try {
-			const url = `${API.PROTOCOL}://${API.HOST}:${API.PORT}${API.ROUTE}/${filename}.json`
-			const res = await Fetch(url);
-			const json = await res.json();
-			return json;
+			const res = await Fetch(`${this.url}/ext/${ext}.json`);
+			return res.json();
 		} catch (e) {
 			return e;
 		}
 	}
 
-	static async is(filename) {
+	async getInfoByName(filename) {
+		try {
+			const res = await Fetch(`${this.url}/name/${filename}.json`);
+			return res.json();
+		} catch (e) {
+			return e;
+		}
+	}
+
+	calculateMatchingPercentage(theirArray, ourMap) {
+		return theirArray.reduce((p, c) => {
+			return p = ourMap[c]
+				? p + 1
+				: p;
+		}, 0) / theirArray.length * 100;
+	}
+
+	siblingDirectoryReliability
+
+	async is(filename) {
 		// Get path
 		const cwd = process.cwd();
 
@@ -38,44 +57,51 @@ export default class WTF {
 
 		const filePath = Path.join(cwd, filename);
 
-		const fileExist = Fs.existsSync(filePath);
-
-		const fileStats =  false && fileExist ?
-			Fs.lstatSync(filePath) :
-			null;
+		const [executable,
+			readable] = await Promise.all([
+			FileSystem.checkExecutable(filePath),
+			FileSystem.checkRead(filePath)
+		]);
 
 		// Get a list of siblings (both directory and files)
-		const siblings = fileExist ?
-			Fs.readdirSync(cwd) :
-			null;
+
+		const [fileStats,
+			siblings] = readable
+			? await Promise.all([
+				FileSystem.status(filePath),
+				FileSystem.readdir(cwd)
+			])
+			: [null, null];
+
+		const siblingsMap = siblings.reduce((map, key) => {
+			map[key] = true;
+			return map;
+		}, {})
 
 		// Get the metadata for this file
-		const info = await WTF.getInfo(filename);
+		const info = await this.getInfoByName(filename);
 
-		// TODO: If 50% of sibling directory doesn't
-		// match data.siblingDirs, role up a FLAG for unreliable directory structure.
-		if (siblings) {
-			
-		}
-		// TODO: Get a list of sibling files
+		const {siblingDirs, siblingFiles} = info;
 
-		// TODO: If 50% of sibling files doesn't
-		// match data.siblingDirs, role up a FLAG for unreliable file structure.
+		const useMan = info.useMan || ((!readable || executable) && FileSystem.isBinaryDirectory(cwdData.name));
 
-		// TODO: Get filesize
+		const siblingDirectoryReliability = this.calculateMatchingPercentage(siblingDirs, siblingsMap);
 
-		// TODO: If file size is bigger than data.maxSize,
-		// roll up a FLAG for unconventional file
-
-		// TODO: If the filesize is smaller than data.minSize,
-		// roll up a FLAG for unconventional file
+		const siblingFileReliability = this.calculateMatchingPercentage(siblingFiles, siblingsMap);
 
 		return {
-			info,
 			cwd,
 			cwdData,
 			filePath,
-			fileExist
+			executable,
+			readable,
+			fileStats,
+			siblings,
+			siblingsMap,
+			info,
+			useMan,
+			siblingDirectoryReliability,
+			siblingFileReliability
 		};
 	}
 };

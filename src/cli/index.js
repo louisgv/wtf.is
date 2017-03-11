@@ -5,32 +5,25 @@ import Terminal from './Terminal';
 
 import Content from './Content';
 
-async function getAndPrintData(filename) {
+const LOCAL_API = {
+	protocol: "http",
+	host: "localhost",
+	port: 5000,
+	route: "/"
+};
+
+async function getAndPrintData(filename, api) {
 
 	try {
-		const {
-			info,
-			cwd,
-			cwdData,
-			filePath,
-			fileExist
-		} = await WTF.is(filename);
+		const wtf = new WTF(api);
 
-		switch (cwdData.name) {
-		case 'bin':
-		case 'sbin':
-			info.tryMan = true;
-			break;
-		default:
-		}
+		const data = await wtf.is(filename);
 
-		const content = (info.tryMan || !fileExist) ?
-			await Content.generateManContent(filename) :
-			Content.generateInfoContent({
-				filename,
-				info,
-				cwd
-			});
+		const {useMan} = data;
+
+		const content = useMan
+			? await Content.generateManContent(filename)
+			: Content.generateInfoContent(filename, data);
 
 		const term = new Terminal(filename, content);
 
@@ -47,11 +40,21 @@ function processFile(filename) {
 	getAndPrintData(filename);
 }
 
-Commander.version('0.0.1')
+function processFileDevMode(filename) {
+	getAndPrintData(filename, LOCAL_API);
+}
+
+Commander
+	.version('0.0.1')
 	.command('<filename>', 'Tell you what that file was supposed to do')
 	.action(processFile);
 
-Commander.command('is <filename>')
+Commander
+	.command('is <filename>')
 	.action(processFile);
+
+Commander
+	.command('dis <filename>')
+	.action(processFileDevMode);
 
 Commander.parse(process.argv);
