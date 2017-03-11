@@ -18,43 +18,49 @@ export default class Content {
 		if (!info.applications) {
 			return "";
 		}
-		return `${Chalk.bold("APPLICATIONS")}` + info.applications.reduce((p, c) => {
-			return p + `\n\t\t${Chalk.green(c.name)}
-\t\t${c.description}\n`
-		}, "");
+		return `${Chalk.bold("APPLICATIONS")}` + info
+			.applications
+			.reduce((p, c) => {
+				return p + `\n\t${Chalk.green(c.name)}
+\t${c.description}\n`
+			}, "");
 
 	}
 
-	static generateStatContent(filename, {fileStats, siblingDirectoryReliability, siblingFileReliability}) {
+	static generateStatContent(filename, {fileStats, executable, siblingDirectoryReliability, siblingFileReliability}) {
 		return `${Chalk.bold("STATISTIC")}
-\t\tStandard sibling directory matches: ${Chalk.bold(siblingDirectoryReliability)}%
-\t\t${siblingDirectoryReliability > 50
-			? Chalk.green("Sibling directory structure is", Chalk.bold("RELIABLE"))
-			: Chalk.red("Sibling directory structure is", Chalk.bold("UNRELIABLE"), "or", Chalk.bold("NONSTANDARD"))}
+\tExecutable: ${executable
+			? Chalk.bold.red("YES")
+			: Chalk.bold.green("NO")}
 
-\t\tStandard sibling file matches: ${Chalk.bold(siblingFileReliability)}%
-\t\t${siblingFileReliability > 50
-				? Chalk.green("Sibling files structure is", Chalk.bold("RELIABLE"))
-				: Chalk.red("Sibling file structure is", Chalk.bold("UNRELIABLE"), "or", Chalk.bold("NONSTANDARD"))}`
+\tStandard sibling directory matches: ${Chalk.bold(siblingDirectoryReliability)}%
+\t${siblingDirectoryReliability > 50
+				? Chalk.green("Sibling directory structure is", Chalk.bold("RELIABLE"))
+				: Chalk.red("Sibling directory structure is", Chalk.bold("UNRELIABLE"), "or", Chalk.bold("NONSTANDARD"))}
+
+\tStandard sibling file matches: ${Chalk.bold(siblingFileReliability)}%
+\t${siblingFileReliability > 50
+					? Chalk.green("Sibling files structure is", Chalk.bold("RELIABLE"))
+					: Chalk.red("Sibling file structure is", Chalk.bold("UNRELIABLE"), "or", Chalk.bold("NONSTANDARD"))}`
 	}
 
 	static generateNameContent(filename, {cwd}) {
 		return `${Chalk.bold("NAME")}
-\t\t${Chalk
+\t${Chalk
 			.green
 			.bold(filename)}
-\t\t${Chalk
+\t${Chalk
 			.yellow(cwd)}`
 	}
 
 	static generateDescContent(filename, {info}) {
 		return `${Chalk.bold("DESCRIPTION")}
-\t\t${info.description}`
+\t${info.description}`
 	}
 
 	static generateUsgContent(filename, {info}) {
 		return `${Chalk.bold("USAGE")}
-\t\t${info.usage}`
+\t${info.usage}`
 	}
 
 	static generateInfoContent(filename, data) {

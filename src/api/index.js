@@ -73,21 +73,36 @@ export default class WTF {
 			])
 			: [null, null];
 
-		const siblingsMap = siblings.reduce((map, key) => {
-			map[key] = true;
-			return map;
-		}, {})
+		const siblingsMap = siblings
+			? siblings.reduce((map, key) => {
+				map[key] = true;
+				return map;
+			}, {})
+			: null;
 
 		// Get the metadata for this file
-		const info = await this.getInfoByName(filename);
+		const info = fileStats
+			? await this.getInfoByName(filename)
+			: {
+				useMan: true
+			};
 
-		const {siblingDirs, siblingFiles} = info;
+		const {siblingDirs, siblingFiles} = info.useMan
+			? {
+				null,
+				null
+			}
+			: info;
 
-		const useMan = info.useMan || ((!readable || executable) && FileSystem.isBinaryDirectory(cwdData.name));
+		const useMan = info.useMan || (!readable || FileSystem.isBinaryDirectory(cwdData.name));
 
-		const siblingDirectoryReliability = this.calculateMatchingPercentage(siblingDirs, siblingsMap);
+		const siblingDirectoryReliability = siblingDirs
+			? this.calculateMatchingPercentage(siblingDirs, siblingsMap)
+			: 0;
 
-		const siblingFileReliability = this.calculateMatchingPercentage(siblingFiles, siblingsMap);
+		const siblingFileReliability = siblingFiles
+			? this.calculateMatchingPercentage(siblingFiles, siblingsMap)
+			: 0;
 
 		return {
 			cwd,

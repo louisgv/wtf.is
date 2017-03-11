@@ -84,7 +84,7 @@ export default class Terminal {
 	}
 
 	generateScreen() {
-		return Blessed.screen({smartCSR: true});
+		return Blessed.screen({smartCSR: true, autoPadding: true, tabSize: 8});
 	}
 
 	generateHeader(parent, title, filename) {

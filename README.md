@@ -8,16 +8,15 @@ This program uses the following feature to identify a file:
 + File meta-data (name, type, etc)
 + Current directory
 + Sibling files
-+ File content (must specified if allowed or not. Default: false)
-+
++ Sibling directories
++ File content (must specified if allowed or not. Default: false
 ```
 
 At the end, it will return a description, which if called via the public api, will return this JSON:
 
 ```json
 {
-  "name" : "package.json",
-  "executable": "false"
+  "name" : "package.json"
 }
 ```
 
@@ -41,9 +40,13 @@ At the end, it will return a description, which if called via the public api, wi
 
 - ./package.json
 - ./bin
-- ./src
+- ./src/api/FileSystem.js
+- ./src/api/index.js
+- ./src/cli/Terminal.js
+- ./src/cli/Content.js
+- ./src/cli/index.js
 
-> NOTE: This is a guide to Read and Partially understand this repos. Just go through them in this order. If you asked why, then the reason is probably because you are not the main contributor to this repo! Dood
+> NOTE: This is a guide to Read and Partially understand this repos. Just go through them in this order. If you asked why, then the reason is probably because you are not a main contributor of this repo, Dood!
 
 ## License
 
