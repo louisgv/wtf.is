@@ -28,6 +28,11 @@ export default class Content {
 	}
 
 	static generateStatContent(filename, {fileStats, executable, siblingDirectoryReliability, siblingFileReliability}) {
+		// TODO: If file size is bigger than info.maxSizeKB, roll up a FLAG for unconventional file
+
+		// TODO: If the filesize is smaller than info.minSizeKB, roll up a FLAG for unconventional
+		// file
+
 		return `${Chalk.bold("STATISTIC")}
 \tExecutable: ${executable
 			? Chalk.bold.red("YES")
@@ -64,12 +69,6 @@ export default class Content {
 	}
 
 	static generateInfoContent(filename, data) {
-
-		// TODO: If file size is bigger than info.maxSize, roll up a FLAG for unconventional file
-
-		// TODO: If the filesize is smaller than info.minSize, roll up a FLAG for unconventional
-		// file
-
 		return `
 
 ${Content.generateNameContent(filename, data)}

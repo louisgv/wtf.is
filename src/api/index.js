@@ -24,30 +24,30 @@ export default class WTF {
 	async getInfoByExtension(ext) {
 		try {
 			const res = await Fetch(`${this.url}/ext/${ext}.json`);
-			return res.json();
-		} catch (e) {
-			return e;
+			return await res.json();
+		} catch (error) {
+			return {error, useMan: true};
 		}
 	}
 
 	async getInfoByName(filename) {
 		try {
 			const res = await Fetch(`${this.url}/name/${filename}.json`);
-			return res.json();
-		} catch (e) {
-			return e;
+			return await res.json();
+		} catch (error) {
+			return {error, useMan: true};
 		}
 	}
 
 	calculateMatchingPercentage(theirArray, ourMap) {
-		return theirArray.reduce((p, c) => {
-			return p = ourMap[c]
-				? p + 1
-				: p;
-		}, 0) / theirArray.length * 100;
+		return (theirArray && theirArray[0])
+			? theirArray.reduce((p, c) => {
+				return p = ourMap[c]
+					? p + 1
+					: p;
+			}, 0) / theirArray.length * 100
+			: 0;
 	}
-
-	siblingDirectoryReliability
 
 	async is(filename) {
 		// Get path
@@ -81,11 +81,7 @@ export default class WTF {
 			: null;
 
 		// Get the metadata for this file
-		const info = fileStats
-			? await this.getInfoByName(filename)
-			: {
-				useMan: true
-			};
+		const info = await this.getInfoByName(filename);
 
 		const {siblingDirs, siblingFiles} = info.useMan
 			? {
@@ -94,15 +90,11 @@ export default class WTF {
 			}
 			: info;
 
-		const useMan = info.useMan || (!readable || FileSystem.isBinaryDirectory(cwdData.name));
+		const useMan = info.useMan || FileSystem.isBinaryDirectory(cwdData.name);
 
-		const siblingDirectoryReliability = siblingDirs
-			? this.calculateMatchingPercentage(siblingDirs, siblingsMap)
-			: 0;
+		const siblingDirectoryReliability = this.calculateMatchingPercentage(siblingDirs, siblingsMap);
 
-		const siblingFileReliability = siblingFiles
-			? this.calculateMatchingPercentage(siblingFiles, siblingsMap)
-			: 0;
+		const siblingFileReliability = this.calculateMatchingPercentage(siblingFiles, siblingsMap);
 
 		return {
 			cwd,
