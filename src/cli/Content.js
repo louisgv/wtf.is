@@ -27,26 +27,41 @@ export default class Content {
 
 	}
 
-	static generateStatContent(filename, {fileStats, executable, siblingDirectoryReliability, siblingFileReliability}) {
-		// TODO: If file size is bigger than info.maxSizeKB, roll up a FLAG for unconventional file
+	static generateStatContent(filename, {info, fileStats, executable, siblingDirectoryReliability, siblingFileReliability}) {
+		if (!fileStats) {
+			return "";
+		}
 
-		// TODO: If the filesize is smaller than info.minSizeKB, roll up a FLAG for unconventional
-		// file
-
-		return `${Chalk.bold("STATISTIC")}
+		return `
+${Chalk.bold("STATISTIC")}
 \tExecutable: ${executable
-			? Chalk.bold.red("YES")
-			: Chalk.bold.green("NO")}
+			? Chalk
+				.bold
+				.red("YES")
+			: Chalk
+				.bold
+				.green("NO")}
+
+\tSize: ${fileStats
+				.size}${Chalk
+				.bold("KB")}
+\t${fileStats
+				.size > (info.maxSizeKB * 1.5)
+				? Chalk.red("File size is abnormally", Chalk.bold("LARGE"))
+				: fileStats.size < (info.minSizeKB * 0.5)
+					? Chalk.red("File size is abnormally", Chalk.bold("SMALL"))
+					: Chalk.green("File size is", Chalk.bold("NORMAL"))}
 
 \tStandard sibling directory matches: ${Chalk.bold(siblingDirectoryReliability)}%
 \t${siblingDirectoryReliability > 50
-				? Chalk.green("Sibling directory structure is", Chalk.bold("RELIABLE"))
-				: Chalk.red("Sibling directory structure is", Chalk.bold("UNRELIABLE"), "or", Chalk.bold("NONSTANDARD"))}
+						? Chalk.green("Sibling directory structure is", Chalk.bold("RELIABLE"))
+						: Chalk.red("Sibling directory structure is", Chalk.bold("UNRELIABLE"), "or", Chalk.bold("NONSTANDARD"))}
 
 \tStandard sibling file matches: ${Chalk.bold(siblingFileReliability)}%
 \t${siblingFileReliability > 50
-					? Chalk.green("Sibling files structure is", Chalk.bold("RELIABLE"))
-					: Chalk.red("Sibling file structure is", Chalk.bold("UNRELIABLE"), "or", Chalk.bold("NONSTANDARD"))}`
+							? Chalk.green("Sibling files structure is", Chalk.bold("RELIABLE"))
+							: Chalk.red("Sibling file structure is", Chalk.bold("UNRELIABLE"), "or", Chalk.bold("NONSTANDARD"))}
+`
 	}
 
 	static generateNameContent(filename, {cwd}) {
@@ -72,9 +87,7 @@ export default class Content {
 		return `
 
 ${Content.generateNameContent(filename, data)}
-
 ${Content.generateStatContent(filename, data)}
-
 ${Content.generateDescContent(filename, data)}
 
 ${Content.generateUsgContent(filename, data)}

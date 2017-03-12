@@ -12,49 +12,49 @@ const LOCAL_API = {
 	route: "/"
 };
 
-async function getAndPrintData(filename, api) {
+async function getAndPrintData(name, api) {
 
 	try {
 		const wtf = new WTF(api);
 
-		const data = await wtf.is(filename);
+		const data = await wtf.is(name);
 
 		const {useMan} = data;
 
 		const content = useMan
-			? await Content.generateManContent(filename)
-			: Content.generateInfoContent(filename, data);
+			? await Content.generateManContent(name)
+			: Content.generateInfoContent(name, data);
 
-		const term = new Terminal(filename, content);
+		const term = new Terminal(name, content);
 
 		term.render();
 	} catch (e) {
-		console.log(`${Chalk.green.bold(filename)} cannot be found in the database.\nPlease file an investigation issue, or contribute to ${Chalk.green.bold('wtf.is')}'s database!\n The database repo is at ${Chalk.black.bgWhite.underline('https://github.com/louisgv/wtf-is-db')}\n${Chalk.yellow.bold('Papa bless!')}`);
+		console.log(`${Chalk.green.bold(name)} cannot be found in the database.\nPlease file an investigation issue, or contribute to ${Chalk.green.bold('wtf.is')}'s database!\n The database repo is at ${Chalk.black.bgWhite.underline('https://github.com/louisgv/wtf-is-db')}\n${Chalk.yellow.bold('Papa bless!')}`);
 		console.log(`\nAlso, the ${Chalk.red.bold('error message')} below is relevant:\n`);
 		console.error(e);
 		return process.exit(1);
 	}
 }
 
-function processFile(filename) {
-	getAndPrintData(filename);
+function processFile(name) {
+	getAndPrintData(name);
 }
 
-function processFileDevMode(filename) {
-	getAndPrintData(filename, LOCAL_API);
+function processFileDevMode(name) {
+	getAndPrintData(name, LOCAL_API);
 }
 
 Commander
 	.version('0.0.1')
-	.command('<filename>', 'Tell you what that file was supposed to do')
+	.command('<name>', 'Tell you what that file is')
 	.action(processFile);
 
 Commander
-	.command('is <filename>')
+	.command('is <name>')
 	.action(processFile);
 
 Commander
-	.command('dis <filename>')
+	.command('dis <name>')
 	.action(processFileDevMode);
 
 Commander.parse(process.argv);

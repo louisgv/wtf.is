@@ -40,7 +40,7 @@ export default class WTF {
 	}
 
 	calculateMatchingPercentage(theirArray, ourMap) {
-		return (theirArray && theirArray[0])
+		return (ourMap && theirArray && theirArray[0])
 			? theirArray.reduce((p, c) => {
 				return p = ourMap[c]
 					? p + 1
@@ -49,7 +49,10 @@ export default class WTF {
 			: 0;
 	}
 
-	async is(filename) {
+	async is(name) {
+
+		const filename = name.toLowerCase();
+
 		// Get path
 		const cwd = process.cwd();
 
