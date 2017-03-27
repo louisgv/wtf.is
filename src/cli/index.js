@@ -25,6 +25,11 @@ async function getAndPrintData(name, api) {
 			? await Content.generateManContent(name)
 			: Content.generateInfoContent(name, data);
 
+		if (api) {
+			console.log(content);
+			return process.exit(0);
+		}
+
 		const term = new Terminal(name, content);
 
 		term.render();

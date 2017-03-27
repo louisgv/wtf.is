@@ -37,7 +37,9 @@ export default class Terminal {
 	}
 
 	getFooterContent(filename, line, scrollPercentage) {
-		const percentText = scrollPercentage === 100 ? '(END)' : `${scrollPercentage.toFixed(2)}%`;
+		const percentText = scrollPercentage === 100
+			? '(END)'
+			: `${scrollPercentage.toFixed(2)}%`;
 		return ` WTF is ${filename} line ${line} ${percentText} (press q to quit) `;
 	}
 
@@ -73,8 +75,14 @@ export default class Terminal {
 				return;
 			}
 			body.scroll(1);
+
+			const newScrollPercentage = body.getScrollPerc();
+			if (newScrollPercentage === 0) {
+				return;
+			}
+
 			this.scrollAmount++;
-			footer.setContent(getFooterContent(filename, this.scrollAmount, body.getScrollPerc()));
+			footer.setContent(getFooterContent(filename, this.scrollAmount, newScrollPercentage));
 			screen.render();
 		});
 	}
@@ -89,7 +97,16 @@ export default class Terminal {
 
 	generateHeader(parent, title, filename) {
 		const content = filename.toUpperCase();
-		const header = Blessed.box({parent: parent, content: `{center}${title}{/center}`, tags: true, height: "54"})
+		const header = Blessed.box({
+			parent,
+			content: `{center}${title}{/center}`,
+			tags: true,
+			height: 1,
+			// style: {
+			// 	bg: 'white',
+			// 	fg: 'black'
+			// }
+		})
 		const leftText = Blessed.text({parent: header, content, left: 0})
 		const rightText = Blessed.text({parent: header, content, right: 0})
 		return {header, leftText, rightText};
