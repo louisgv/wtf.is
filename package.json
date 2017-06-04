@@ -9,9 +9,9 @@
   "scripts": {
     "commit": "git-cz",
     "build": "babel -d lib/ src/",
-		"watch": "npm-run-all --parallel watch:*",
+    "watch": "npm-run-all --parallel watch:*",
     "watch:src": "babel --watch -d lib/ src/",
-		"watch:run": "chokidar './lib/**/*.js' -c 'wtf dis package.json'",
+    "watch:run": "chokidar './lib/**/*.js' -c 'wtf dis package.json'",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "repository": {
